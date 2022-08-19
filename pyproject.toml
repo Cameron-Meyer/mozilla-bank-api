@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "mozilla-rest-api"
+version = "0.1.0"
+description = ""
+authors = ["Cameron Meyer <c.meyer95@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.79.0"
+sqlalchemy = "^1.4.40"
+
+[tool.poetry.dev-dependencies]
+uvicorn = "^0.18.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

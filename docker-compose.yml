@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  bank-api:
+    container_name: bank-api
+    build: .
+    volumes:
+      - './bank:/app'
+    ports:
+      - "8080:8000"
+  bank-db:
+    container_name: bank-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mozilla
+      POSTGRES_DB: Bank
+    volumes:
+      - './database:/docker-entrypoint-initdb.d'
