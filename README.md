@@ -1,6 +1,6 @@
 # Mozilla Take-home Exercise: Bank API
 
-## [Original Instructions PDF](./instructions.pdf)
+## Requirements - [Original PDF](./instructions.pdf)
 
 ### API Requirements
 - POST `/account`
@@ -48,7 +48,8 @@ focus more on the given task rather than on learning an entire new framework in 
 - [SQLAlchemy](https://www.sqlalchemy.org/) - Database ORM Library
   - One of the options recommended by https://fastapi.tiangolo.com/tutorial/sql-databases/ - chosen for compatibility with documentation and its independence of framework 
       (personal preference is to prioritize reusability of business logic regardless of framework, unless there are significant benefits to native integration)
+- [Pydantic](https://pydantic-docs.helpmanual.io/)
+  - Paired with SQLAlchemy to perform Schema validation
 - [Uvicorn](https://www.uvicorn.org/) - Local ASGI Web Server
-  - Comes packaged with FastAPI, used in many examples online, extremely lightweight and quick to setup/configure
-- 
+  - Comes packaged with FastAPI, used in many examples online, extremely lightweight and quick to set up
 
