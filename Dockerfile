@@ -72,4 +72,4 @@ RUN poetry install
 WORKDIR /app
 
 # --host 0.0.0.0 is required to allow Docker to route calls to the app
-CMD ["uvicorn", "--reload", "--host", "0.0.0.0", "main:app"]
+CMD ["uvicorn", "--reload", "--host", "0.0.0.0", "--log-level", "trace", "--use-colors", "main:app"]
