@@ -1,7 +1,8 @@
 from decimal import Decimal
 
 from sqlalchemy.orm import Session
-import models, schemas
+
+import database, schemas
 
 
 def get_account(db: Session, account_name: str):
@@ -13,7 +14,7 @@ def get_account(db: Session, account_name: str):
     :return: schemas.Account
     :raise sqlalchemy.exc.NoResultFound: if no record is returned
     """
-    return db.query(models.Account).filter_by(name=account_name).one()
+    return db.query(database.Account).filter_by(name=account_name).one()
 
 
 def create_account(db: Session, account: schemas.Account):
@@ -25,7 +26,7 @@ def create_account(db: Session, account: schemas.Account):
     :raise sqlalchemy.exc.IntegrityError: if an account already exists with the name provided
     """
     # Ordinarily would make case-insensitive, but given lack of requirements I'll default to "Case Matters"
-    new_account = models.Account(name=account.name)
+    new_account = database.Account(name=account.name)
     db.add(new_account)
     db.commit()
     db.refresh(new_account)
@@ -36,8 +37,8 @@ def update_amount(db: Session, account: schemas.Account):
     # Provides two benefits: Validates that only one account exists, and loads the object into session so that
     # synchronize_session updates it upon completion (ensuring we get the most up-to-date record
     updated_account = get_account(db, account.name)
-    db.query(models.Account).filter_by(name=account.name).update(
-        {models.Account.amount: updated_account.amount + Decimal(account.amount)},
+    db.query(database.Account).filter_by(name=account.name).update(
+        {database.Account.balance: updated_account.balance + Decimal(account.balance)},
         synchronize_session='fetch')
     db.commit()
     return updated_account

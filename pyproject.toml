@@ -10,11 +10,17 @@ fastapi = "^0.79.0"
 sqlalchemy = "^1.4.40"
 pydantic = "^1.9.2"
 psycopg2-binary = "^2.9.3"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 uvicorn = "^0.18.2"
 pytest = "^7.1.2"
-pytest-mock = "^3.8.2"
+requests = "^2.28.1" # https://github.com/tiangolo/fastapi/issues/2595
+
+[tool.pytest.ini_options] # https://stackoverflow.com/a/50610630
+pythonpath = [
+  ".", "bank"
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

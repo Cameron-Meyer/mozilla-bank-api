@@ -6,7 +6,7 @@ from pydantic import BaseModel, validator
 
 class Account(BaseModel):
     name: str
-    amount: Optional[float]
+    balance: Optional[float]
 
     @validator('name', always=True, pre=True)
     def name_must_be_alpha_and_spaces(cls, name: str):

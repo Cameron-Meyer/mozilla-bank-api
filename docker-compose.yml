@@ -4,6 +4,8 @@ services:
   bank-api:
     container_name: bank-api
     build: .
+    environment:
+      RUNTIME_ENV: 'test'
     volumes:
       - './bank:/app'
     ports:
@@ -18,7 +20,7 @@ services:
       POSTGRES_PASSWORD: mozilla
       POSTGRES_DB: Bank
     volumes:
-      - './database:/docker-entrypoint-initdb.d'
+      - './database_configs:/docker-entrypoint-initdb.d'
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
