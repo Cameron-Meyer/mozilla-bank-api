@@ -7,18 +7,18 @@ from bank.schemas import Account
 
 
 class TestAccount:
-    def test_account_sets_name_without_amount(self):
+    def test_account_sets_name_without_balance(self):
         assert Account(name='I am a name').name == 'I am a name'
 
-    def test_account_sets_name_and_amount(self):
-        rand_amount = random.random()
+    def test_account_sets_name_and_balance(self):
+        rand_balance = random.random()
         rand_name = ''.join(random.choices(string.ascii_uppercase, k=20))
-        account = Account(name=rand_name, amount=rand_amount)
+        account = Account(name=rand_name, balance=rand_balance)
         assert account.name == rand_name
-        assert account.balance == rand_amount
+        assert account.balance == rand_balance
 
-    def test_amount_fails_if_not_float(self):
-        assert Account(name='inconsequential', amount='0').balance == 0.0
+    def test_balance_fails_if_not_float(self):
+        assert Account(name='inconsequential', balance='0').balance == 0.0
 
     def test_raise_value_error_if_name_is_empty(self):
         with pytest.raises(ValueError, match="field required, but is either empty or pure whitespace"):

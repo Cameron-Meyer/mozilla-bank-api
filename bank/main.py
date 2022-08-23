@@ -5,11 +5,26 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from sqlalchemy.orm import Session
 
-import database
-import crud
-import schemas
+from .database import engine, Account, SessionLocal
+from . import crud, schemas
+
+Account.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Bank API - Mozilla Take-Home Assessment", contact={"Cameron Meyer": "c.meyer95@gmail.com"})
+
+
+def get_db():
+    """
+    Initializes the database and manages its connection, closing on completion
+
+    :return: the DB Session
+    """
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 @app.exception_handler(NoResultFound)
@@ -36,7 +51,7 @@ responses = {
                            }}
                      }
           )
-async def create_account(response: Response, account: schemas.Account, db: Session = Depends(database.get_db)):
+async def create_account(response: Response, account: schemas.Account, db: Session = Depends(get_db)):
     try:
         account = crud.create_account(db, schemas.Account(**account.dict()))
         # https://restfulapi.net/http-status-201-created/
@@ -47,7 +62,7 @@ async def create_account(response: Response, account: schemas.Account, db: Sessi
 
 
 @app.get("/account/{name}", response_model=schemas.Account, responses={**responses})
-async def retrieve_account(name: str, db: Session = Depends(database.get_db)):
+async def retrieve_account(name: str, db: Session = Depends(get_db)):
     return crud.get_account(db, name)
 
 
@@ -56,7 +71,7 @@ async def deposit_amount(name: str = Path(title="Name of the account to deposit 
                          amount: float = Body(title="Amount greater than 0 to deposit to the specified account",
                                               gt=0,
                                               embed=True),
-                         db: Session = Depends(database.get_db)):
+                         db: Session = Depends(get_db)):
     return crud.update_amount(db, schemas.Account(name=name, balance=amount))
 
 
@@ -65,5 +80,5 @@ async def withdraw_amount(name: str = Path(title="Name of the account to withdra
                           amount: float = Body(title="Amount greater than 0 to withdraw from the specified account",
                                                gt=0,
                                                embed=True),
-                          db: Session = Depends(database.get_db)):
+                          db: Session = Depends(get_db)):
     return crud.update_amount(db, schemas.Account(name=name, balance=amount * -1))
