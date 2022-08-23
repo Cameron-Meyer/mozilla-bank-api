@@ -1,4 +1,4 @@
 CREATE TABLE Accounts (
-    name varchar(255) UNIQUE CONSTRAINT PRIMARY KEY,
+    name varchar(255) UNIQUE PRIMARY KEY,
     balance numeric
 )
