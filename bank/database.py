@@ -1,17 +1,24 @@
-from sqlalchemy import create_engine, Column, String, Numeric
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from config import Settings
 
-engine = create_engine(Settings().database_url, connect_args={"check_same_thread": False})
+engine = create_engine(Settings().database_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
 
-class Account(Base):
-    __tablename__ = "accounts"
+def get_db():
+    """
+    Initializes the database and manages its connection, closing on completion
 
-    name = Column(String, primary_key=True, index=True, unique=True)
-    balance = Column(Numeric, default=0.00)
+    :return: the DB Session
+    """
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()

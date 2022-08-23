@@ -5,26 +5,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from sqlalchemy.orm import Session
 
-from .database import engine, Account, SessionLocal
-from . import crud, schemas
-
-Account.metadata.create_all(bind=engine)
+import crud, schemas
+from database import get_db
 
 app = FastAPI(title="Bank API - Mozilla Take-Home Assessment", contact={"Cameron Meyer": "c.meyer95@gmail.com"})
-
-
-def get_db():
-    """
-    Initializes the database and manages its connection, closing on completion
-
-    :return: the DB Session
-    """
-    db = SessionLocal()
-
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @app.exception_handler(NoResultFound)

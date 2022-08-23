@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
-from .main import Account
+from models import Account
 import schemas
 
 
